@@ -26,15 +26,28 @@ class ArbolZipa():
             sample_rate=0.6,
             seed=56478)
 
+    def variables(self,df):
+        data = pd.DataFrame(columns=("Transversales_desarrollo","Puntos Codificación","T","valor_indicador_ans_desarrollo",
+        "valor_indicador_ejecucion_desarrollo","Pila_desarrollo","Categoría","Web Service",
+        "Base de datos","Reporte","Aplicación de escritorio","Subsistema"))
+        variables={"Transversales_desarrollo","Puntos Codificación","T","valor_indicador_ans_desarrollo",
+        "valor_indicador_ejecucion_desarrollo","Pila_desarrollo","Categoría","Web Service",
+        "Base de datos","Reporte","Aplicación de escritorio","Subsistema"}
+        for i in variables:
+            data[i]=df[i]
+        return data
+
     def crear_arbol(self):
         
         h2o.init(max_mem_size = "2G")
         h2o.remove_all() 
         df = pd.read_excel('p18.xlsx',encoding="ISO-8859-1")
+        df=self.variables(df)
         umbrales =np.linspace(0, 1, 7)
         df = df.replace(np.nan, None)
         covtype_df=h2o.H2OFrame(self.discretizador.discretizar(self.listaVarDis,umbrales,df))
         covtype_df=covtype_df.drop([0], axis=0)
+        
         covtype_df["T"]=covtype_df["T"].asfactor()
         df=covtype_df
         t=covtype_df["T"]
