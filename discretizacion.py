@@ -5,6 +5,7 @@ class discretizador():
     def __init__(self):
         self.valoresDeT=[]
         self.cuantiles=[]
+        self.listaDeIntervalos=[]
     
     def discretizar(self,listaVarDis,umbrales,df):
         for variable in listaVarDis:
@@ -49,6 +50,7 @@ class discretizador():
                 listaIntervalos.append((cuantiles[i],cuantiles[i+1]))
         print("lista de intervalos")
         print(listaIntervalos)
+        self.listaDeIntervalos=listaIntervalos
         for i in range(len (vector)):
             for j in range(len(listaIntervalos)):
                 if vector[i]<=listaIntervalos[j][1] and vector[i]>=listaIntervalos[j][0]:
